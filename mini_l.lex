@@ -8,78 +8,83 @@ Written by Ji Hwan Kim
 }%
 
 DIGIT [0-9]
-""   {printf("\n"); currPos += yyleng;}
 
 %%
-"function"    {printf("FUNCTION\n"); currPos += yyleng;}
-"beginparams" {printf("BEGIN_PARAMS\n"); currPos += yyleng;}
-"endparams" {printf("END_PARAMS\n"); currPos += yyleng;}
+"function"      {printf("FUNCTION\n"); currPos += yyleng;}
+"beginparams"   {printf("BEGIN_PARAMS\n"); currPos += yyleng;}
+"endparams"     {printf("END_PARAMS\n"); currPos += yyleng;}
 "beginlocals"   {printf("BEGIN_LOCALS\n"); currPos += yyleng;}
-"endlocals"   {printf("END_LOCALS\n"); currPos += yyleng;}
-"beginbody"   {printf("BEGIN_BODY\n"); currPos += yyleng;}
-"endbody"   {printf("END_BODY\n"); currPos += yyleng;}
-"e"   {printf("\n"); currPos += yyleng;}
-""   {printf("\n"); currPos += yyleng;}
-""   {printf("\n"); currPos += yyleng;}
-""   {printf("\n"); currPos += yyleng;}
-""   {printf("\n"); currPos += yyleng;}
-""   {printf("\n"); currPos += yyleng;}
-""   {printf("\n"); currPos += yyleng;}
-""   {printf("\n"); currPos += yyleng;}
-""   {printf("\n"); currPos += yyleng;}
-""   {printf("\n"); currPos += yyleng;}
-""   {printf("\n"); currPos += yyleng;}
-""   {printf("\n"); currPos += yyleng;}
-""   {printf("\n"); currPos += yyleng;}
-""   {printf("\n"); currPos += yyleng;}
-""   {printf("\n"); currPos += yyleng;}
-""   {printf("\n"); currPos += yyleng;}
-""   {printf("\n"); currPos += yyleng;}
-""   {printf("\n"); currPos += yyleng;}
-""   {printf("\n"); currPos += yyleng;}
+"endlocals"     {printf("END_LOCALS\n"); currPos += yyleng;}
+"beginbody"     {printf("BEGIN_BODY\n"); currPos += yyleng;}
+"endbody"       {printf("END_BODY\n"); currPos += yyleng;}
+"endlocals"     {printf("END_LOCALS\n"); currPos += yyleng;}
+"beginbody"     {printf("BEGIN_BODY\n"); currPos += yyleng;}
+"endbody"       {printf("END_BODY\n"); currPos += yyleng;}
+"integer"       {printf("INTEGER\n"); currPos += yyleng;}
+"array"         {printf("ARRAY\n"); currPos += yyleng;}
+"of"            {printf("OF\n"); currPos += yyleng;}
+"if"            {printf("IF\n"); currPos += yyleng;}
+"then"          {printf("THEN\n"); currPos += yyleng;}
+"endif"         {printf("ENDIF\n"); currPos += yyleng;}
+"else"          {printf("ELSE\n"); currPos += yyleng;}
+"while"         {printf("WHILE\n"); currPos += yyleng;}
+"do"            {printf("DO\n"); currPos += yyleng;}
+"for"           {printf("FOR\n"); currPos += yyleng;}
+"beginloop"     {printf("BEGINLOOP\n"); currPos += yyleng;}
+"endloop"       {printf("ENDLOOP\n"); currPos += yyleng;}
+"continue"      {printf("CONTINUE\n"); currPos += yyleng;}
+"read"          {printf("READ\n"); currPos += yyleng;}
+"write"         {printf("WRITE\n"); currPos += yyleng;}
+"and"           {printf("AND\n"); currPos += yyleng;}
+"or"            {printf("OR\n"); currPos += yyleng;}
+"not"           {printf("NOT\n"); currPos += yyleng;}
+"true"          {printf("TRUE\n"); currPos += yyleng;}
+"false"         {printf("FALSE\n"); currPos += yyleng;}
+"return"        {printf("RETURN\n"); currPos += yyleng;}
 
+"-"   {printf("SUB\n"); currPos += yyleng;}
+"+"   {printf("ADD\n"); currPos += yyleng;}
+"*"   {printf("MULT\n"); currPos += yyleng;}
+"/"   {printf("DIV\n"); currPos += yyleng;}
+"%"   {printf("MOD\n"); currPos += yyleng;}
 
-endlocals END_LOCALS
-beginbody BEGIN_BODY
-endbody END_BODY
-integer INTEGER
-array ARRAY
+"=="   {printf("EQ\n"); currPos += yyleng;}
+"<>"   {printf("NEQ\n"); currPos += yyleng;}
+"<"   {printf("LT\n"); currPos += yyleng;}
+">"   {printf("GT\n"); currPos += yyleng;}
+"<="   {printf("LTE\n"); currPos += yyleng;}
+">="   {printf("GTE\n"); currPos += yyleng;}
 
-- SUB
-+ ADD
-* MULT
-/ DIV
-% MOD
+";"   {printf("SEMICOLON\n"); currPos += yyleng;}
+":"   {printf("COLON\n"); currPos += yyleng;}
+","   {printf("COMMA\n"); currPos += yyleng;}
+"("   {printf("L_PAREN\n"); currPos += yyleng;}
+")"   {printf("R_PAREN\n"); currPos += yyleng;}
+"["   {printf("L_SQUARE_BRACKET\n"); currPos += yyleng;}
+"]"   {printf("R_SQUARE_BRACKET\n"); currPos += yyleng;}
+":="   {printf("ASSIGN\n"); currPos += yyleng;}
 
-==  EQ
-<>  NEQ
-< LT
-> GT
-<=  LTE
->=  GTE
+^[_a-zA-Z]*[a-zA-Z0-9]$  {printf("IDENT %s\n", yytext); currPos += yyleng;}
+{DIGIT}+  {printf("NUMBER %s\n", yytext); currPos += yyleng;}
 
-identifier (e.g., "aardvark", "BIG_PENGUIN", "fLaMInGo_17", "ot73r")  IDENT XXXX [where XXXX is the identifier itself]
-number (e.g., "17", "101", "90210", "0", "8675309") NUMBER XXXX [where XXXX is the number itself]
+[ \t]+ {currPos += yyleng;}
+"\n"  {currLine++; currPos = 1;}
 
-; SEMICOLON
-: COLON
-, COMMA
-( L_PAREN
-) R_PAREN
-[ L_SQUARE_BRACKET
-] R_SQUARE_BRACKET
-:=  ASSIGN
-
-"-"   {printf("MINUS\n"); currPos += yyleng; numOperators++;}
-"+"   {printf("PLUS\n"); currPos += yyleng; numOperators++;}
-"*"            {printf("MULT\n"); currPos += yyleng; numOperators++;}
-"/"            {printf("DIV\n"); currPos += yyleng; numOperators++;}
-"="            {printf("EQUAL\n"); currPos += yyleng; numEquals++;}
-"("            {printf("L_PAREN\n"); currPos += yyleng; numParens++;}
-")"            {printf("R_PAREN\n"); currPos += yyleng; numParens++;}
-
-
+[_a-zA-Z][_a-zA-Z0-9]*  {printf("Error at line %d, column %d: identifier \"%s\" must begin with a letter\n", currLine, currPos, yytext); exit(0);}
+[_a-zA-Z][_a-zA-Z0-9]*  {printf("Error at line %d, column %d: identifier \"%s\" cannot end with an underscore\n", currLine, currPos, yytext); exit(0);}
+. {printf("Error at line %d, column %d: unrecognized symbol \"%s\"\n", currLine, currPos, yytext); exit(0);}
 
 %%
 
-
+int main(int argc, char ** argv){
+  if(argc >= 2){
+    yyin = fopen(argv[1], "r");
+    if(yyin == NULL){
+      yyin = stdin;
+    }
+  }
+  else {
+    yyin = stdin;
+  }
+  yylex();
+}
