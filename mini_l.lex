@@ -18,7 +18,7 @@ DIGIT [0-9]
 "endlocals"   {printf("END_LOCALS\n"); currPos += yyleng;}
 "beginbody"   {printf("BEGIN_BODY\n"); currPos += yyleng;}
 "endbody"   {printf("END_BODY\n"); currPos += yyleng;}
-""   {printf("\n"); currPos += yyleng;}
+"e"   {printf("\n"); currPos += yyleng;}
 ""   {printf("\n"); currPos += yyleng;}
 ""   {printf("\n"); currPos += yyleng;}
 ""   {printf("\n"); currPos += yyleng;}
