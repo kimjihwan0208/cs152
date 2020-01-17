@@ -5,7 +5,7 @@ Written by Ji Hwan Kim
 
 %{
   int currPos = 1, currLine = 1;
-}%
+%}
 
 DIGIT [0-9]
 
@@ -14,9 +14,6 @@ DIGIT [0-9]
 "beginparams"   {printf("BEGIN_PARAMS\n"); currPos += yyleng;}
 "endparams"     {printf("END_PARAMS\n"); currPos += yyleng;}
 "beginlocals"   {printf("BEGIN_LOCALS\n"); currPos += yyleng;}
-"endlocals"     {printf("END_LOCALS\n"); currPos += yyleng;}
-"beginbody"     {printf("BEGIN_BODY\n"); currPos += yyleng;}
-"endbody"       {printf("END_BODY\n"); currPos += yyleng;}
 "endlocals"     {printf("END_LOCALS\n"); currPos += yyleng;}
 "beginbody"     {printf("BEGIN_BODY\n"); currPos += yyleng;}
 "endbody"       {printf("END_BODY\n"); currPos += yyleng;}
@@ -70,16 +67,19 @@ DIGIT [0-9]
 [ \t]+ {currPos += yyleng;}
 "\n"  {currLine++; currPos = 1;}
 
-[_a-zA-Z][_a-zA-Z0-9]*  {printf("Error at line %d, column %d: identifier \"%s\" must begin with a letter\n", currLine, currPos, yytext); exit(0);}
-[_a-zA-Z][_a-zA-Z0-9]*  {printf("Error at line %d, column %d: identifier \"%s\" cannot end with an underscore\n", currLine, currPos, yytext); exit(0);}
+[0-9][_a-zA-Z0-9]*  {printf("Error at line %d, column %d: identifier \"%s\" must begin with a letter\n", currLine, currPos, yytext); exit(0);}
+^[_a-zA-Z]*[_a-zA-Z0-9]*[_]$  {printf("Error at line %d, column %d: identifier \"%s\" cannot end with an underscore\n", currLine, currPos, yytext); exit(0);}
 . {printf("Error at line %d, column %d: unrecognized symbol \"%s\"\n", currLine, currPos, yytext); exit(0);}
 
 %%
 
-int main(int argc, char ** argv){
-  if(argc >= 2){
+int main(int argc, char ** argv)
+{
+  if(argc >= 2)
+  {
     yyin = fopen(argv[1], "r");
-    if(yyin == NULL){
+    if(yyin == NULL)
+    {
       yyin = stdin;
     }
   }
